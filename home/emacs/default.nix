@@ -32,6 +32,11 @@
       rainbow-delimiters
       setup
       smartparens
+      treemacs
+      treemacs-evil
+      treemacs-projectile
+      treemacs-magit
+      lsp-treemacs
       tree-sitter
       tree-sitter-langs
       undo-tree

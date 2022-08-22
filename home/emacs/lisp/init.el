@@ -73,7 +73,7 @@
   (display-line-numbers-mode 0))
 
 (defun enable-line-number ()
-  (display-line-numbers-mode 0))
+  (display-line-numbers-mode 1))
 
 ;; Enable line numbers for some modes
 (dolist (mode '(text-mode-hook
@@ -334,6 +334,12 @@
 
 (setup (:if-package smartparens)
   (:hook-into prog-mode))
+
+(setup (:if-package treemacs))
+(setup (:if-package treemacs-evil) (:load-after evil))
+(setup (:if-package treemacs-projectile) (:load-after projectile))
+(setup (:if-package treemacs-magit) (:load-after magit))
+(setup (:if-package lsp-treemacs) (:load-after lsp-mode))
 
 (setup (:if-package tree-sitter)
   (require 'tree-sitter)
