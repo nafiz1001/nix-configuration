@@ -10,15 +10,11 @@ in
     viAlias = true;
     vimdiffAlias = true;
     withNodeJs = true;
-    extraConfig = ''
-      ${default}
-      ${plugins}
-    '';
     plugins = with pkgs.vimPlugins; [
       vim-commentary
       vim-nix
       vim-gitgutter
-      (nvim-treesitter.withPlugins (p: builtins.attrValues p))
+      # (nvim-treesitter.withPlugins (p: builtins.attrValues p))
 
       vim-automkdir # automatically creating missing dirs on save
       vim-matchup
@@ -37,6 +33,11 @@ in
       telescope-fzf-native-nvim
     ];
   };
+
+  xdg.configFile."nvim/init.vim".text =  lib.strings.concatStringsSep "\n" [
+    "${default}"
+    "${plugins}"
+  ];
 
   home.sessionVariables = {
     EDITOR = "neovim";

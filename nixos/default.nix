@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, modulesPath, home-manager, ... }:
 let
   username = "nafiz";
   homeDirectory = "/home/nafiz";
@@ -6,11 +6,11 @@ in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    <home-manager/nixos>
+    home-manager
     ./xserver.nix
     ./gnome.nix
     # ./plasma.nix
-    ./apps.nix
+    # ./apps.nix
   ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" ];
@@ -19,12 +19,12 @@ in
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/3bf50b22-3a0e-400f-a2e3-9a063b767880";
+    device = "/dev/sda4";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/775F-3C0E";
+    device = "/dev/sda1";
     fsType = "vfat";
   };
 
@@ -128,20 +128,23 @@ in
     zoom-us
     fractal
 
-    dropbox
-    qbittorrent
-
     vscode
 
     okular
 
     kolourpaint
+    pinta
+    gimp
+
+    audacity
+
+    libreoffice
   ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-  system.copySystemConfiguration = true;
+  # system.copySystemConfiguration = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

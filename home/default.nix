@@ -82,6 +82,7 @@ in
       url."https://".insteadOf = [ "git://" ];
       core.editor = "nvim";
     };
+    lfs.enable = true;
   };
 
   programs.tmux = {
@@ -94,11 +95,13 @@ in
 
   home.packages = with pkgs; [
     nixpkgs-fmt
+    nix-index
 
     fd
     fzf
     ripgrep
     pdfgrep
+    tree
 
     zip
 
@@ -109,9 +112,19 @@ in
 
     bc
     calc
+    octave
+    gnuplot
 
+    dropbox
+    onedrive
+    rclone
+    qbittorrent
     rsync
+    youtube-dl
 
     # tex
+    pandoc
+
+    # plan9port
   ];
 }

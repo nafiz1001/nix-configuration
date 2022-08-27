@@ -7,47 +7,47 @@
     enable = true;
     extraPackages = epkgs: with epkgs; [
       # auctex
-      company
+      # company
       consult
-      embark
-      embark-consult
-      envrc
+      # embark
+      # embark-consult
+      # envrc
       evil
       evil-collection
       evil-commentary
-      flycheck
-      git-gutter
-      helpful
-      hl-todo
-      lsp-mode
-      lsp-ui
-      lsp-pyright
-      magit
+      # flycheck
+      # git-gutter
+      # helpful
+      # hl-todo
+      # lsp-mode
+      # lsp-ui
+      # lsp-pyright
+      # magit
       marginalia
       nix-mode
       no-littering
-      nyan-mode
-      orderless
-      projectile
-      rainbow-delimiters
+      # nyan-mode
+      # orderless
+      # projectile
+      # rainbow-delimiters
       setup
-      smartparens
-      treemacs
-      treemacs-evil
-      treemacs-projectile
-      treemacs-magit
-      lsp-treemacs
-      tree-sitter
-      tree-sitter-langs
-      undo-tree
+      # smartparens
+      # treemacs
+      # treemacs-evil
+      # treemacs-projectile
+      # treemacs-magit
+      # lsp-treemacs
+      # tree-sitter
+      # tree-sitter-langs
+      # undo-tree
       vertico
       # vlf
       vterm
-      yasnippet
+      # yasnippet
     ];
   };
 
-  home.file.".emacs".source = ./lisp/init.el;
+  xdg.configFile."emacs/init.el".source = ./lisp/init.el;
 
   home.sessionVariables = { };
 

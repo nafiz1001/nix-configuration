@@ -1,10 +1,12 @@
-{ config, pkgs, ... }:
+{ config, pkgs, home-manager, ... }:
 let
   username = "nislam";
   homeDirectory = "/Users/nislam";
 in
 {
-  imports = [ <home-manager/nix-darwin> ];
+  imports = [
+    home-manager
+  ];
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
