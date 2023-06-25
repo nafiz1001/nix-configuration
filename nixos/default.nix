@@ -2,40 +2,42 @@
 let
   username = "nafiz";
   homeDirectory = "/home/nafiz";
-in
-{
+in {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    home-manager
-    ./xserver.nix
-    ./gnome.nix
-    # ./plasma.nix
-    # ./apps.nix
+    # ./xserver.nix
+    ./hyprland.nix
   ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" ];
-  boot.initrd.kernelModules = [ "wl" ];
-  boot.kernelModules = [ "kvm-intel" "wl" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "thunderbolt"
+    "nvme"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+    "sdhci_pci"
+  ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
-  fileSystems."/" = {
-    device = "/dev/sda4";
-    fsType = "ext4";
-  };
+  services.tlp = { settings = { STOP_CHARGE_THRESH_BAT0 = "1"; }; };
 
   fileSystems."/boot" = {
-    device = "/dev/sda1";
+    device = "/dev/nvme0n1p1";
     fsType = "vfat";
   };
 
-  boot.supportedFilesystems = [ "ntfs" ];
-  fileSystems."/mnt/c" = {
-    device = "/dev/sda3";
-    fsType = "ntfs";
-    options = [ "rw" ];
+  fileSystems."/" = {
+    device = "/dev/nvme0n1p2";
+    fsType = "ext4";
   };
 
-  boot.cleanTmpDir = true;
+  boot.tmp = {
+    cleanOnBoot = true;
+    useTmpfs = true;
+  };
 
   swapDevices = [ ];
 
@@ -46,25 +48,35 @@ in
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      22000 # syncthing
+    ];
+    allowedTCPPortRanges = [
+      # { from = 1714; to = 1764; } # kde-connect
+    ];
+    allowedUDPPorts = [
+      22000
+      21027 # syncthing
+    ];
+    allowedUDPPortRanges = [
+      # { from = 1714; to = 1764; } # kde-connect
+    ];
+  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
 
   boot.loader.efi = {
     canTouchEfiVariables = true;
     efiSysMountPoint = "/boot";
   };
-
-  boot.loader.grub = {
-    enable = true;
-    version = 2;
-    devices = [ "nodev" ];
-    efiSupport = true;
-    useOSProber = true;
-  };
+  boot.loader.systemd-boot.enable = true;
 
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.scanRandMacAddress = false;
@@ -73,6 +85,14 @@ in
 
   # Set your time zone.
   time.timeZone = "America/New_York";
+
+  console = {
+    font = "ter-i32b";
+    packages = with pkgs; [ terminus_font ];
+    earlySetup = true;
+  };
+
+  services.upower.enable = true;
 
   virtualisation.docker.rootless = {
     enable = true;
@@ -83,17 +103,15 @@ in
   # services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  nixpkgs.overlays = [
-    (self: super: {
-      discord = super.discord.override {
-        nss = pkgs.nss_latest;
-      };
-    })
-  ];
-
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
@@ -101,7 +119,7 @@ in
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     name = username;
     home = homeDirectory;
-    shell = pkgs.fish;
+    shell = pkgs.bash;
   };
   home-manager = {
     users.root = {
@@ -113,33 +131,55 @@ in
     };
     users.${username} = {
       imports = [ ../home ];
-      home = {
-        inherit username homeDirectory;
-      };
+      home = { inherit username homeDirectory; };
     };
   };
 
+  programs.dconf.enable = true;
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.gnome.gnome-keyring.enable = true;
+  services.dbus.enable = true;
+  xdg.portal = {
+    enable = true;
+    # gtk portal needed to make gtk apps happy
+    # extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+  # services.geoclue2 = {
+  #   enable = true;
+  # };
+
+  services.flatpak.enable = true;
+
+  programs.kdeconnect.enable = true;
+
   environment.systemPackages = with pkgs; [
+    pcmanfm
+    pavucontrol
+    pamixer
+
     firefox
-    brave
+
+    vscode
 
     discord
     slack
     zoom-us
-    fractal
 
-    vscode
+    mpv
 
-    okular
-
-    kolourpaint
-    pinta
+    obs-studio
     gimp
-
+    libreoffice
+    # dropbox
+    obsidian
     audacity
 
-    libreoffice
+    gamescope
+    # lutris
   ];
+
+  programs.steam.enable = true;
+  programs.gamemode.enable = true;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
@@ -152,5 +192,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 }

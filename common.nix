@@ -1,8 +1,5 @@
-{ config, lib, pkgs, home-manager, ... }:
-{
-  imports = [
-    home-manager
-  ];
+{ config, lib, pkgs, home-manager, ... }: {
+  imports = [ home-manager ];
 
   nixpkgs.config.allowUnfree = true;
   nix = {

@@ -1,16 +1,15 @@
 { config, pkgs, home-manager, ... }:
 let
-  username = "nislam";
-  homeDirectory = "/Users/nislam";
-in
-{
-  imports = [
-    home-manager
-  ];
+  username = "nafizislam";
+  homeDirectory = "/Users/nafizislam";
+in {
+  imports = [ home-manager ];
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [];
+
+  homebrew = { enable = true; };
 
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
@@ -24,15 +23,14 @@ in
   programs.zsh.enable = true; # default shell on catalina
   programs.fish.enable = true;
 
-  users.users.nislam = {
+  users.users.${username} = {
     name = username;
     home = homeDirectory;
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
   };
   home-manager = {
     users.${username} = {
       imports = [ ../home ];
-      inherit username homeDirectory;
     };
   };
 

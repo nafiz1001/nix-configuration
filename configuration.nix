@@ -1,7 +1,1 @@
-{ config, pkgs, lib, ... }:
-{
-  imports = [
-    ./common.nix
-    ./nixos
-  ];
-}
+{ config, pkgs, lib, ... }: { imports = [ ./common.nix ./nixos ]; }
