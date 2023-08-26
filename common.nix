@@ -1,6 +1,4 @@
-{ config, lib, pkgs, home-manager, ... }: {
-  imports = [ home-manager ];
-
+{ config, lib, pkgs, ... }: {
   nixpkgs.config.allowUnfree = true;
   nix = {
     package = pkgs.nixVersions.stable;
@@ -9,14 +7,6 @@
     '';
   };
   nix.settings.auto-optimise-store = true;
-
-  programs.zsh.enable = true;
-  programs.fish.enable = true;
-
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
 
   environment.systemPackages = with pkgs; [ ];
 }

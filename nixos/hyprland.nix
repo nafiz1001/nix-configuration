@@ -15,8 +15,8 @@
   # programs.waybar.enable = true;
 
   xdg.portal = {
-    # wlr.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    wlr.enable = true; # false if using hyprland's xdg
+    # extraPortals = [ pkgs.xdg-desktop-portal-hyprland ]; # TODO: fix existing link problem
   };
 
   nixpkgs.overlays =
@@ -25,7 +25,6 @@
   environment.systemPackages = with pkgs; [
     wl-clipboard
     wofi
-    kitty
     dunst
     grim
     slurp

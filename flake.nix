@@ -2,9 +2,9 @@
   description = "Nix configuration of nafiz1001";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
@@ -26,14 +26,34 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./home.nix ];
       };
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos = let
+        username = "nafiz";
+        homeDirectory = "/home/nafiz";
+      in nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          home-manager = home-manager.nixosModules.home-manager;
+          inherit username homeDirectory;
         };
         modules = [
           ./configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.root = {
+              imports = [ ./home ];
+              home = {
+                username = "root";
+                homeDirectory = "/root";
+              };
+            };
+            home-manager.users.${username} = {
+              imports = [ ./home ];
+              home = { inherit username homeDirectory; };
+            };
+          }
           nixos-hardware.nixosModules.common-cpu-intel
           nixos-hardware.nixosModules.common-pc
           nixos-hardware.nixosModules.common-pc-ssd
@@ -41,13 +61,25 @@
           nixos-hardware.nixosModules.common-pc-laptop-ssd
         ];
       };
-      darwinConfigurations.orchid = darwin.lib.darwinSystem {
+      darwinConfigurations.orchid = let
+        username = "nafizislam";
+        homeDirectory = "/Users/nafizislam";
+      in darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         specialArgs = {
           inherit inputs;
-          home-manager = home-manager-darwin.darwinModules.home-manager;
+          inherit username homeDirectory;
         };
-        modules = [ ./darwin-configuration.nix ./darwin/c3g.nix ];
+        modules = [
+          ./darwin-configuration.nix
+          home-manager-darwin.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.${username} = { imports = [ ./home ]; };
+          }
+          ./darwin/c3g.nix
+        ];
       };
     };
 }

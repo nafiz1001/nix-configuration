@@ -26,7 +26,6 @@
   services.geoclue2.appConfig.redshift.isAllowed = true;
 
   environment.systemPackages = with pkgs; [
-    konsole
     xclip
     dmenu
     tint2

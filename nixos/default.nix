@@ -1,10 +1,7 @@
-{ config, lib, pkgs, modulesPath, home-manager, ... }:
-let
-  username = "nafiz";
-  homeDirectory = "/home/nafiz";
-in {
+{ config, lib, pkgs, modulesPath, username, homeDirectory, ... }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    # TODO use nix module pattern instead
     # ./xserver.nix
     ./hyprland.nix
   ];
@@ -57,8 +54,8 @@ in {
       # { from = 1714; to = 1764; } # kde-connect
     ];
     allowedUDPPorts = [
-      22000
-      21027 # syncthing
+      22000 # syncthing
+      21027 #
     ];
     allowedUDPPortRanges = [
       # { from = 1714; to = 1764; } # kde-connect
@@ -121,19 +118,6 @@ in {
     home = homeDirectory;
     shell = pkgs.bash;
   };
-  home-manager = {
-    users.root = {
-      imports = [ ../home ];
-      home = {
-        username = "root";
-        homeDirectory = "/root";
-      };
-    };
-    users.${username} = {
-      imports = [ ../home ];
-      home = { inherit username homeDirectory; };
-    };
-  };
 
   programs.dconf.enable = true;
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
@@ -153,7 +137,6 @@ in {
   programs.kdeconnect.enable = true;
 
   environment.systemPackages = with pkgs; [
-    pcmanfm
     pavucontrol
     pamixer
 
@@ -165,6 +148,8 @@ in {
     slack
     zoom-us
 
+    okular
+    gwenview
     mpv
 
     obs-studio

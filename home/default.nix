@@ -35,7 +35,6 @@ in {
   };
 
   programs.zsh = {
-    enable = true;
     enableSyntaxHighlighting = true;
     enableAutosuggestions = true;
     initExtra = lib.strings.concatStringsSep "\n" [
@@ -46,7 +45,6 @@ in {
   };
 
   programs.fish = {
-    enable = true;
     plugins = [{
       name = "fish-ssh-agent";
       src = pkgs.fetchFromGitHub {
@@ -98,7 +96,7 @@ in {
   };
 
   home.packages = with pkgs; [
-    # nixd # i need nixos after 23.05
+    nixd
     nixfmt
     nix-index
     direnv
@@ -109,7 +107,7 @@ in {
     fd
     fzf
     ripgrep
-    socat
+    # socat
     pandoc
 
     zip
@@ -120,7 +118,7 @@ in {
     bc
 
     # yt-dlp
-    rustup
-    gcc
+    # rustup
+    # gcc
   ];
 }
