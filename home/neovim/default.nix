@@ -1,3 +1,4 @@
+# TODO: convert to module pattern
 { config, pkgs, lib, ... }: {
   programs.neovim = {
     enable = true;

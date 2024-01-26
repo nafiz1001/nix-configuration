@@ -1,15 +1,8 @@
 { config, pkgs, lib, ... }:
-let
-  startSSHAgent = ''
-    if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-        ssh-agent -t 1h > "$HOME/.ssh/ssh-agent.env"
-    fi
-    if [[ ! "$SSH_AUTH_SOCK" ]]; then
-        source "$HOME/.ssh/ssh-agent.env" >/dev/null
-    fi
-  '';
-in {
-  imports = [ ./neovim ];
+{
+  imports = [
+    ./neovim # TODO: apply module pattern
+  ];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -19,7 +12,7 @@ in {
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "23.05";
+  home.stateVersion = "23.11";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -27,33 +20,23 @@ in {
   # nixpkgs.config.allowUnfree = true;
 
   programs.ssh.enable = true;
+  services.ssh-agent.enable = true;
 
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    bashrcExtra = lib.strings.concatStringsSep "\n" [ startSSHAgent ];
   };
 
   programs.zsh = {
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting.enable = true;
     enableAutosuggestions = true;
     initExtra = lib.strings.concatStringsSep "\n" [
-      startSSHAgent
       ''bindkey "^R" history-incremental-pattern-search-backward''
       "bindkey -v"
     ];
   };
 
   programs.fish = {
-    plugins = [{
-      name = "fish-ssh-agent";
-      src = pkgs.fetchFromGitHub {
-        owner = "danhper";
-        repo = "fish-ssh-agent";
-        rev = "fd70a2afdd03caf9bf609746bf6b993b9e83be57";
-        sha256 = "e94Sd1GSUAxwLVVo5yR6msq0jZLOn2m+JZJ6mvwQdLs=";
-      };
-    }];
     interactiveShellInit =
       lib.strings.concatStringsSep "\n" [ "fish_vi_key_bindings" ];
   };
@@ -76,6 +59,9 @@ in {
 
   home.sessionVariables = { FZF_DEFAULT_COMMAND = "rg --files --hidden"; };
 
+  # generates user-dirs.dirs
+  xdg.userDirs.enable = true;
+
   nixpkgs.overlays = [
     (self: super: {
       qbittorrent = super.qbittorrent.override { guiSupport = false; };
@@ -85,9 +71,14 @@ in {
   services.syncthing = { enable = pkgs.stdenv.isLinux; };
 
   programs.emacs = {
-    enable = pkgs.stdenv.isLinux;
+    enable = true;
     package = pkgs.emacs29;
-    extraPackages = epkgs: [ epkgs.vterm ];
+    # extraPackages = epkgs: [ epkgs.vterm ];
+  };
+  services.emacs = {
+    enable = false;
+    package = pkgs.emacs29;
+    # extraPackages = epkgs: [ epkgs.vterm ];
   };
 
   programs.tmux = {

@@ -24,15 +24,15 @@
 
   environment.systemPackages = with pkgs; [
     wl-clipboard
-    wofi
+    fuzzel
     dunst
-    grim
-    slurp
     gammastep
-    eww
     polkit-kde-agent
     libsForQt5.qt5.qtwayland
     qt6.qtwayland
-    swaybg
+    waybar
+    inputs.hyprland-contrib.packages.${pkgs.system}.grimblast
+
+    gwenview
   ];
 }

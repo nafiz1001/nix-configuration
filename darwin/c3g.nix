@@ -61,10 +61,10 @@
     # python
     (python311.withPackages (p: with p; [ pip virtualenv ]))
     libffi
+    nodePackages.pyright
 
     # node
     nodejs-18_x
-    nodePackages.pyright
     nodePackages.npm
     nodePackages.typescript
     nodePackages.typescript-language-server

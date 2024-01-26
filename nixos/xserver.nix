@@ -1,8 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-{
+{ config, lib, pkgs, ... }: {
+  imports = [
+    # ./openbox.nix
+    # ./kde.nix
+    ./gnome.nix
+  ];
+  
   services.xserver.enable = true;
-  services.xserver.autorun = true;
   services.xserver = {
     libinput = {
       enable = true;
@@ -14,21 +17,10 @@
       touchpad = { accelProfile = "flat"; };
     };
   };
+
   services.xserver = { excludePackages = [ pkgs.xterm ]; };
-
-  services.xserver.windowManager.openbox.enable = true;
-
-  services.redshift = {
-    enable = true;
-    temperature = { night = 1000; };
-  };
-  location = { provider = "geoclue2"; };
-  services.geoclue2.appConfig.redshift.isAllowed = true;
-
   environment.systemPackages = with pkgs; [
     xclip
-    dmenu
-    tint2
-    flameshot
+    wl-clipboard
   ];
 }

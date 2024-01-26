@@ -1,9 +1,9 @@
 { config, lib, pkgs, modulesPath, username, homeDirectory, ... }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    # TODO use nix module pattern instead
-    # ./xserver.nix
-    ./hyprland.nix
+    # TODO: use nix module pattern instead
+    ./xserver.nix
+    # ./hyprland.nix
   ];
 
   boot.initrd.availableKernelModules = [
@@ -18,6 +18,12 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+  boot.kernelPackages = pkgs.linuxPackages_6_1;
+
+  hardware.opengl.enable = true;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   services.tlp = { settings = { STOP_CHARGE_THRESH_BAT0 = "1"; }; };
 
@@ -48,26 +54,19 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
-      22000 # syncthing
+      22000 # TODO: syncthing (use module pattern)
     ];
     allowedTCPPortRanges = [
-      # { from = 1714; to = 1764; } # kde-connect
+      # { from = 1714; to = 1764; } # TODO: kde-connect (already done)
     ];
     allowedUDPPorts = [
-      22000 # syncthing
-      21027 #
+      22000 # TODO: syncthing (use module pattern)
+      21027 # TODO: syncthing (use module pattern)
     ];
     allowedUDPPortRanges = [
-      # { from = 1714; to = 1764; } # kde-connect
+      # { from = 1714; to = 1764; } # TODO: kde-connect (already done)
     ];
   };
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  hardware.opengl.enable = true;
 
   boot.loader.efi = {
     canTouchEfiVariables = true;
@@ -109,6 +108,7 @@
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
   };
+  hardware.pulseaudio.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
@@ -144,26 +144,27 @@
 
     vscode
 
-    discord
+    # discord (flatpak)
     slack
     zoom-us
 
     okular
-    gwenview
     mpv
 
     obs-studio
     gimp
     libreoffice
     # dropbox
-    obsidian
+    # obsidian
     audacity
 
+    xwaylandvideobridge
+
     gamescope
-    # lutris
+    # lutris (flatpak)
   ];
 
-  programs.steam.enable = true;
+  # programs.steam.enable = true; (flatpak)
   programs.gamemode.enable = true;
 
   # Copy the NixOS configuration file and link it from the resulting system
@@ -177,5 +178,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 }
