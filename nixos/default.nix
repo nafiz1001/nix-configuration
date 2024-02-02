@@ -1,9 +1,11 @@
 { config, lib, pkgs, modulesPath, username, homeDirectory, ... }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    # TODO: use nix module pattern instead
-    ./xserver.nix
-    # ./hyprland.nix
+    ./gnome.nix
+    ./hyprland.nix
+    # ./plasma.nix
+    # ./openbox.nix
+    ./cuis-smalltalk.nix
   ];
 
   boot.initrd.availableKernelModules = [
@@ -90,9 +92,20 @@
 
   services.upower.enable = true;
 
-  virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
+  virtualisation = {
+    docker.rootless = {
+      enable = false;
+      setSocketVariable = true;
+    };
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
   };
 
   # Enable CUPS to print documents.
@@ -131,41 +144,42 @@
   # services.geoclue2 = {
   #   enable = true;
   # };
+  security.polkit.enable = true;
 
   services.flatpak.enable = true;
 
   programs.kdeconnect.enable = true;
 
   environment.systemPackages = with pkgs; [
-    pavucontrol
-    pamixer
-
     firefox
 
     vscode
 
-    # discord (flatpak)
+    # discord # use flatpak
     slack
     zoom-us
 
     okular
-    mpv
 
-    obs-studio
     gimp
     libreoffice
     # dropbox
     # obsidian
-    audacity
-
-    xwaylandvideobridge
+    # audacity
 
     gamescope
-    # lutris (flatpak)
+    # lutris
+
+    distrobox
   ];
 
-  # programs.steam.enable = true; (flatpak)
+  programs.steam.enable = true;
   programs.gamemode.enable = true;
+
+  nafiz1001.hyprland.enable = false;
+  nafiz1001.gnome.enable = true;
+
+  nafiz1001.cuis-smalltalk.enable = true;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

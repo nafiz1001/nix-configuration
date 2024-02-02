@@ -23,6 +23,10 @@
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # TODO: Use opensmalltalk-vm from master after this merges:
+    # https://github.com/NixOS/nixpkgs/pull/286421
+    nixpkgs-opensmalltalk-vm-update.url = "github:jbaum98/nixpkgs/opensmalltalk-vm-update";
   };
 
   outputs = inputs@{ nixpkgs, home-manager, darwin, home-manager-darwin
@@ -38,7 +42,7 @@
         system = "x86_64-linux";
         specialArgs = {
           inputs = {
-            inherit (inputs) nixpkgs hyprland hyprland-contrib;
+            inherit (inputs) nixpkgs hyprland hyprland-contrib nixpkgs-opensmalltalk-vm-update;
           };
           inherit username homeDirectory;
         };
@@ -62,7 +66,9 @@
             };
           }
 
-          nixos-hardware.nixosModules.common-cpu-intel # includes gpu-intel
+          nixos-hardware.nixosModules.common-cpu-intel
+          nixos-hardware.nixosModules.common-cpu-intel-cpu-only
+          nixos-hardware.nixosModules.common-gpu-intel
           nixos-hardware.nixosModules.common-pc
           nixos-hardware.nixosModules.common-pc-ssd
           nixos-hardware.nixosModules.common-pc-laptop

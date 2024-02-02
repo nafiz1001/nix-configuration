@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 {
   imports = [
-    ./neovim # TODO: apply module pattern
+    ./neovim
+    ./emacs
   ];
 
   # This value determines the Home Manager release that your
@@ -28,6 +29,7 @@
   };
 
   programs.zsh = {
+    enable = lib.mkDefault false;
     syntaxHighlighting.enable = true;
     enableAutosuggestions = true;
     initExtra = lib.strings.concatStringsSep "\n" [
@@ -37,11 +39,15 @@
   };
 
   programs.fish = {
+    enable = lib.mkDefault false;
     interactiveShellInit =
       lib.strings.concatStringsSep "\n" [ "fish_vi_key_bindings" ];
   };
 
   targets.genericLinux.enable = pkgs.stdenv.isLinux;
+
+  nafiz1001.neovim.enable = true;
+  nafiz1001.emacs.enable = pkgs.stdenv.isLinux;
 
   programs.git = {
     enable = true;
@@ -60,37 +66,26 @@
   home.sessionVariables = { FZF_DEFAULT_COMMAND = "rg --files --hidden"; };
 
   # generates user-dirs.dirs
-  xdg.userDirs.enable = true;
-
-  nixpkgs.overlays = [
-    (self: super: {
-      qbittorrent = super.qbittorrent.override { guiSupport = false; };
-    })
-  ];
+  xdg.userDirs.enable = pkgs.stdenv.isLinux;
 
   services.syncthing = { enable = pkgs.stdenv.isLinux; };
-
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs29;
-    # extraPackages = epkgs: [ epkgs.vterm ];
-  };
-  services.emacs = {
-    enable = false;
-    package = pkgs.emacs29;
-    # extraPackages = epkgs: [ epkgs.vterm ];
-  };
 
   programs.tmux = {
     enable = true;
     mouse = true;
   };
 
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  programs.nix-index.enable = true;
+
   home.packages = with pkgs; [
     nixd
     nixfmt
-    nix-index
-    direnv
 
     neofetch
 
@@ -108,8 +103,12 @@
 
     bc
 
-    # yt-dlp
-    # rustup
-    # gcc
+    yt-dlp
+
+    rustup
+    gdb
+    lldb
+    # gcc # bad idea
+    # bear # generates compilation database
   ];
 }

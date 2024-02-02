@@ -1,18 +1,22 @@
-# TODO: convert to module pattern
-{ config, pkgs, lib, ... }: {
-  programs.neovim = {
-    enable = true;
-    vimAlias = true;
-    viAlias = true;
-    vimdiffAlias = true;
-    withNodeJs = true;
-    plugins = with pkgs.vimPlugins; [ ];
+{ config, pkgs, lib, ... }:
+let
+  cfg = config.nafiz1001.neovim;
+in
+{
+  options.nafiz1001.neovim = {
+    enable = lib.mkEnableOption "Neovim";
   };
 
-  home.sessionVariables = {
-    EDITOR = "neovim";
-    VISUAL = "neovim";
-  };
+  config = lib.mkIf cfg.enable {
+    programs.neovim = {
+      enable = true;
+      vimAlias = true;
+      viAlias = true;
+      vimdiffAlias = true;
+      withNodeJs = true;
+      plugins = with pkgs.vimPlugins; [ ];
+    };
 
-  home.packages = with pkgs; [ ];
+    home.packages = with pkgs; [ ];
+  };
 }
