@@ -5,68 +5,39 @@
     ./hyprland.nix
     # ./plasma.nix
     # ./openbox.nix
-    ./cuis-smalltalk.nix
+    ./squeak.nix
   ];
 
-  boot.initrd.availableKernelModules = [
-    "xhci_pci"
-    "thunderbolt"
-    "nvme"
-    "usbhid"
-    "usb_storage"
-    "sd_mod"
-    "sdhci_pci"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-  boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   hardware.opengl.enable = true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-
-  services.tlp = { settings = { STOP_CHARGE_THRESH_BAT0 = "1"; }; };
-
-  fileSystems."/boot" = {
-    device = "/dev/nvme0n1p1";
-    fsType = "vfat";
-  };
-
-  fileSystems."/" = {
-    device = "/dev/nvme0n1p2";
-    fsType = "ext4";
-  };
 
   boot.tmp = {
     cleanOnBoot = true;
     useTmpfs = true;
   };
 
-  swapDevices = [ ];
-
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
+
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
-      22000 # TODO: syncthing (use module pattern)
+      22000 # NOTE: home-manager's syncthing does not set firewall
     ];
     allowedTCPPortRanges = [
-      # { from = 1714; to = 1764; } # TODO: kde-connect (already done)
+      # { from = 1714; to = 1764; } # kde-connect (NOTE: already done)
     ];
     allowedUDPPorts = [
-      22000 # TODO: syncthing (use module pattern)
-      21027 # TODO: syncthing (use module pattern)
+      22000 # NOTE: home-manager's syncthing does not set firewall
+      21027 # NOTE: home-manager's syncthing does not set firewall
     ];
     allowedUDPPortRanges = [
-      # { from = 1714; to = 1764; } # TODO: kde-connect (already done)
+      # { from = 1714; to = 1764; } # kde-connect (NOTE: already done)
     ];
   };
 
@@ -77,9 +48,6 @@
   boot.loader.systemd-boot.enable = true;
 
   networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.scanRandMacAddress = false;
-  networking.wireless.iwd.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -89,8 +57,6 @@
     packages = with pkgs; [ terminus_font ];
     earlySetup = true;
   };
-
-  services.upower.enable = true;
 
   virtualisation = {
     docker.rootless = {
@@ -151,35 +117,34 @@
   programs.kdeconnect.enable = true;
 
   environment.systemPackages = with pkgs; [
+    kitty
+
+    mpv
+    gwenview
     firefox
+    okular
+    libreoffice
 
     vscode
+
+    obs-studio
 
     # discord # use flatpak
     slack
     zoom-us
 
-    okular
-
     gimp
-    libreoffice
     # dropbox
     # obsidian
     # audacity
 
-    gamescope
-    # lutris
-
     distrobox
   ];
-
-  programs.steam.enable = true;
-  programs.gamemode.enable = true;
 
   nafiz1001.hyprland.enable = false;
   nafiz1001.gnome.enable = true;
 
-  nafiz1001.cuis-smalltalk.enable = true;
+  nafiz1001.squeak.enable = true;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

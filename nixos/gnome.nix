@@ -19,6 +19,8 @@ in
       core-developer-tools.enable = false;
     };
 
+    programs.kdeconnect.package = lib.mkDefault "gnomeExtensions.gsconnect";
+
     environment.gnome.excludePackages = (with pkgs; [
       # gnome-photos
       gnome-text-editor
@@ -47,7 +49,6 @@ in
     environment.systemPackages = with pkgs; [
       gnome-extension-manager
       gnome.gnome-tweaks
-      gnomeExtensions.gsconnect
 
       mpv # video and (most importantly) music player
       mpvScripts.inhibit-gnome

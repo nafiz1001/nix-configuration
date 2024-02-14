@@ -18,8 +18,6 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  # nixpkgs.config.allowUnfree = true;
-
   programs.ssh.enable = true;
   services.ssh-agent.enable = true;
 
@@ -109,6 +107,14 @@
     gdb
     lldb
     # gcc # bad idea
-    # bear # generates compilation database
+    # bear # generates compilation database for clangd
+    # universal-ctags
+
+    appimage-run
+
+    # nodePackages.pyright
+    # nodePackages.typescript-language-server
+    nodePackages.bash-language-server
+    # clang-tools
   ];
 }

@@ -10,6 +10,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    programs.kdeconnect.package = lib.mkDefault "plasma5Packages.kdeconnect-kde";
     services.xserver.desktopManager.plasma5 = true;
   };
 }
