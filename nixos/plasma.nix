@@ -10,6 +10,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    services.xserver.desktopManager.plasma5 = true;
+    nafiz1001.xserver.enable = true;
+    nafiz1001.wayland.enable = true;
+
+    services.xserver.desktopManager.plasma5.enable = true;
   };
 }

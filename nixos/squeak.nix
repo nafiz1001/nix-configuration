@@ -1,11 +1,11 @@
 { config, lib, inputs, ... }:
 let
-  cfg = config.nafiz1001.cuis-smalltalk;
+  cfg = config.nafiz1001.squeak;
   pkgs = inputs.nixpkgs-opensmalltalk-vm-update.legacyPackages.x86_64-linux;
 in
 {
-  options.nafiz1001.cuis-smalltalk = {
-    enable = lib.mkEnableOption "Cuis Smalltalk";
+  options.nafiz1001.squeak = {
+    enable = lib.mkEnableOption "Squeak VM";
   };
 
   config = lib.mkIf cfg.enable {

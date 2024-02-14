@@ -10,6 +10,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    nafiz1001.xserver.enable = true;
+    nafiz1001.wayland.enable = true;
+
     services.xserver.displayManager.gdm.enable = true;
 
     services.xserver.desktopManager.gnome.enable = true;
@@ -25,7 +28,7 @@ in
       gnome-tour
       snapshot # webcam
     ]) ++ (with pkgs.gnome; [
-      baobab # disk usage analyzer
+      # baobab # disk usage analyzer
       cheese # webcam tool
       epiphany # web browser
       evince # document viewer
@@ -40,7 +43,7 @@ in
       gnome-terminal
       gnome-weather
       simple-scan
-      totem # video player but i already need mpv
+      totem # video player but mpv is better
       yelp # help viewer
     ]);
 
@@ -51,13 +54,22 @@ in
 
       mpv # video and (most importantly) music player
       mpvScripts.inhibit-gnome
+    ];
 
-      kitty
+    programs.firefox.nativeMessagingHosts.packages = with pkgs; [
+      gnomeExtensions.gsconnect
     ];
 
     # nixos/modules/config/qt.nix
     qt = {
       enable = true;
     };
+
+    environment.sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (with pkgs.gst_all_1; [
+      gst-plugins-good
+      gst-plugins-bad
+      gst-plugins-ugly
+      gst-libav
+    ]);
   };
 }

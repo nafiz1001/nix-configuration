@@ -1,13 +1,23 @@
-{ config, lib, pkgs, inputs, ... }: {
-  environment.systemPackages = with pkgs; [
-    kitty
+{ config, lib, pkgs, inputs, ... }:
+let
+  cfg = config.nafiz1001.minimal;
+in
+{
+  options.nafiz1001.minimal = {
+    enable = lib.mkEnableOption "Minimal Desktop Apps";
+  };
 
-    pavucontrol
-    pamixer
+  config = lib.mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      pavucontrol
+      pamixer
 
-    polkit-kde-agent
+      kitty
+      gwenview
+      mpv
+      xfce.thunar
 
-    gwenview
-    mpv
-  ];
+      polkit-kde-agent
+    ];
+  };
 }
