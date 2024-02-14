@@ -10,6 +10,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    nafiz1001.xserver.enable = true;
+    nafiz1001.minimal.enable = true;
+
     services.xserver.windowManager.openbox.enable = true;
     services.xserver.autorun = true;
 

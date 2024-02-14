@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, osConfig, ... }:
 {
   imports = [
     ./neovim
@@ -17,8 +17,6 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  # nixpkgs.config.allowUnfree = true;
 
   programs.ssh.enable = true;
   services.ssh-agent.enable = true;
@@ -63,7 +61,7 @@
 
   programs.tmux = { extraConfig = ""; };
 
-  home.sessionVariables = { FZF_DEFAULT_COMMAND = "rg --files --hidden"; };
+  # home.sessionVariables = { FZF_DEFAULT_COMMAND = "rg --files --hidden"; };
 
   # generates user-dirs.dirs
   xdg.userDirs.enable = pkgs.stdenv.isLinux;
@@ -81,10 +79,11 @@
     nix-direnv.enable = true;
   };
 
-  programs.nix-index.enable = true;
+  # crashes my computer
+  programs.nix-index.enable = false;
 
   home.packages = with pkgs; [
-    nixd
+    # nixd # https://github.com/NixOS/nixpkgs/issues/295195
     nixfmt
 
     neofetch
@@ -101,14 +100,20 @@
 
     htop
 
-    bc
+    # bc
 
     yt-dlp
 
     rustup
     gdb
     lldb
-    # gcc # bad idea
-    # bear # generates compilation database
+
+    appimage-run
   ];
+
+  home.file.".steam/steam/steam_dev.cfg".text = lib.mkIf osConfig.programs.steam.enable
+    ''
+    @nClientDownloadEnableHTTP2PlatformLinux 0
+    @fDownloadRateImprovementToAddAnotherConnection 1.0
+    '';
 }

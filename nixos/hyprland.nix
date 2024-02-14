@@ -10,6 +10,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    nafiz1001.wayland.enable = true;
+    nafiz1001.minimal.enable = true;
+
     nix.settings = {
       substituters = [ "https://hyprland.cachix.org" ];
       trusted-public-keys =
