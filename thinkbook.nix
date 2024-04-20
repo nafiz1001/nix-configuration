@@ -21,7 +21,7 @@ in nixpkgs.lib.nixosSystem {
     ./nixos
     ./nixos/thinkbook.nix
 
-    { nafiz1001.gaming.enable = false; }
+    { nafiz1001.gaming.enable = true; }
     ./nixos/gaming.nix
 
     {

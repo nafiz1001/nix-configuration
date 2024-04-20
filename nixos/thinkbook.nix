@@ -15,7 +15,11 @@ in {
   boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  services.tlp = { settings = { STOP_CHARGE_THRESH_BAT0 = "1"; }; };
+  services.power-profiles-daemon.enable = false;
+  services.tlp = {
+    enable = true;
+    settings = { STOP_CHARGE_THRESH_BAT0 = "1"; };
+  };
 
   fileSystems."/boot" = {
     device = "/dev/nvme0n1p1";
