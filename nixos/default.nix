@@ -31,14 +31,14 @@
       22000 # NOTE: home-manager's syncthing does not set firewall
     ];
     allowedTCPPortRanges = [
-      # { from = 1714; to = 1764; } # kde-connect (NOTE: already done)
+      # { from = 1714; to = 1764; } # kdeconnect (NOTE: already done)
     ];
     allowedUDPPorts = [
       22000 # NOTE: home-manager's syncthing does not set firewall
       21027 # NOTE: home-manager's syncthing does not set firewall
     ];
     allowedUDPPortRanges = [
-      # { from = 1714; to = 1764; } # kde-connect (NOTE: already done)
+      # { from = 1714; to = 1764; } # kdeconnect (NOTE: already done)
     ];
   };
 
@@ -114,7 +114,7 @@
   services.flatpak.enable = true;
 
   programs.kdeconnect.enable = true;
-  programs.firefox.enable = true;
+  programs.firefox.enable = false; # use flatpak
 
   environment.systemPackages = with pkgs; [
     # most gui apps should come from flathub

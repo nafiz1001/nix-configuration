@@ -21,9 +21,6 @@ in nixpkgs.lib.nixosSystem {
     ./nixos
     ./nixos/thinkbook.nix
 
-    { nafiz1001.gaming.enable = true; }
-    ./nixos/gaming.nix
-
     {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
