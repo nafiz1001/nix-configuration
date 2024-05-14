@@ -136,6 +136,8 @@
     # obs-studio
 
     distrobox # does not work well in NixOS
+
+    wireshark
   ];
 
   environment.sessionVariables = rec {

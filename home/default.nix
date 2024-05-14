@@ -55,7 +55,7 @@
 
   nafiz1001.neovim.enable = true;
   nafiz1001.emacs.enable = pkgs.stdenv.isLinux;
-  programs.vscode.enable = false; # use flatpak
+  programs.vscode.enable = true;
 
   programs.git = {
     enable = true;
@@ -94,7 +94,8 @@
     nixd
     nixfmt
 
-    neofetch
+    # neofetch
+    fastfetch
 
     jq
     fd
@@ -102,6 +103,7 @@
     ripgrep
     # socat
     pandoc
+    tree
 
     zip
     unzip

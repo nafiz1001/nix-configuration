@@ -51,6 +51,7 @@ in
       gnome-extension-manager
       gnome.gnome-tweaks
       gnomeExtensions.gsconnect
+      gnomeExtensions.appindicator
 
       mpv # video and (most importantly) music player
       mpvScripts.inhibit-gnome
