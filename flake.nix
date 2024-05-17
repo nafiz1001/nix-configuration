@@ -25,12 +25,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # TODO: Use opensmalltalk-vm from NixOS/nixpkgs after
-    # this merges: https://github.com/NixOS/nixpkgs/pull/286421
-    nixpkgs-opensmalltalk-vm-update.url = "github:jbaum98/nixpkgs/opensmalltalk-vm-update";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, darwin, home-manager-darwin , nixos-hardware, ... }:
+  outputs = inputs:
     {
       homeConfigurations.wsl = (import ./wsl.nix) inputs;
       nixosConfigurations.thinkbook = (import ./thinkbook.nix) inputs;

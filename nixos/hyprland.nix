@@ -37,6 +37,8 @@ in
       gammastep
       inputs.hyprland-contrib.packages.${pkgs.system}.grimblast
       waybar
+
+      obs-studio-plugins.wlrobs
     ];
   };
 }

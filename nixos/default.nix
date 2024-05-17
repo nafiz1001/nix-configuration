@@ -1,11 +1,10 @@
-{ config, lib, pkgs, modulesPath, username, homeDirectory, ... }: {
+{ config, lib, pkgs, modulesPath, username, homeDirectory, pkgs-unstable, ... }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./gnome.nix
     ./hyprland.nix
     ./plasma.nix
     ./openbox.nix
-    ./squeak.nix
     ./qemu.nix
   ];
 
@@ -114,23 +113,26 @@
   services.flatpak.enable = true;
 
   programs.kdeconnect.enable = true;
-  programs.firefox.enable = false; # use flatpak
+  programs.firefox = {
+    enable = true;
+  };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     # most gui apps should come from flathub
 
     # okular
-    # libreoffice
+    libreoffice-fresh
 
     # discord # flatpak
-    # slack
-    # zoom-us
+    slack
+    thunderbird
 
     # dropbox # I use syncthing
+    qbittorrent
 
     # obsidian # I use org-mode
 
-    # gimp
+    gimp
     # audacity
     # libsForQt5.kdenlive # flatpak
     # obs-studio
@@ -138,7 +140,11 @@
     distrobox # does not work well in NixOS
 
     wireshark
-  ];
+  ]) ++ (with pkgs-unstable; [
+    # zoom-us # broken
+    obs-studio
+    racket
+  ]);
 
   environment.sessionVariables = rec {
     PATH = [
@@ -150,8 +156,6 @@
   nafiz1001.hyprland.enable = false;
   nafiz1001.openbox.enable = false;
   nafiz1001.plasma.enable = false;
-
-  nafiz1001.squeak.enable = false;
 
   nafiz1001.qemu.enable = true;
 

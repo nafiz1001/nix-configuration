@@ -1,4 +1,4 @@
-{ config, pkgs, lib, osConfig, ... }:
+{ config, pkgs, pkgs-unstable, lib, osConfig, ... }:
 {
   imports = [
     ./neovim
@@ -55,7 +55,10 @@
 
   nafiz1001.neovim.enable = true;
   nafiz1001.emacs.enable = pkgs.stdenv.isLinux;
-  programs.vscode.enable = true;
+  programs.vscode = {
+    enable = pkgs.stdenv.isLinux;
+    package = pkgs-unstable.vscode;
+  };
 
   programs.git = {
     enable = true;
@@ -117,6 +120,7 @@
     rustup
     gdb
     lldb
+    gnumake
 
     appimage-run
   ];

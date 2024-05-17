@@ -1,4 +1,4 @@
-inputs@{ nixpkgs, home-manager, nixos-hardware, ... }:
+inputs@{ nixpkgs, home-manager, nixos-hardware, nixpkgs-unstable, ... }:
 let
   username = "nafiz";
   homeDirectory = "/home/nafiz";
@@ -8,12 +8,19 @@ let
       home = { inherit username homeDirectory; };
     };
   };
-in nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
+  # https://www.reddit.com/r/NixOS/comments/1c6m5j4/comment/l02sj4u/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+  pkgs-unstable = import nixpkgs-unstable {
+    inherit system;
+    config.allowUnfree = true;
+  };
+in nixpkgs.lib.nixosSystem {
+  inherit system;
   specialArgs = {
     inputs = {
-      inherit (inputs) nixpkgs hyprland hyprland-contrib nixpkgs-opensmalltalk-vm-update;
+      inherit (inputs) nixpkgs hyprland hyprland-contrib;
     };
+    inherit pkgs-unstable;
     inherit username homeDirectory;
   };
   modules = [
@@ -24,6 +31,9 @@ in nixpkgs.lib.nixosSystem {
     {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
+      home-manager.extraSpecialArgs = {
+        inherit pkgs-unstable;
+      };
     }
     home-manager.nixosModules.home-manager
 
@@ -32,8 +42,6 @@ in nixpkgs.lib.nixosSystem {
   ]
   ++ (with nixos-hardware.nixosModules; [
     common-cpu-intel
-    common-cpu-intel-cpu-only
-    common-gpu-intel
     common-pc
     common-pc-ssd
     common-pc-laptop
