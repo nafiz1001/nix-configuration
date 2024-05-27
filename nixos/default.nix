@@ -116,6 +116,7 @@
   programs.kdeconnect.enable = true;
   programs.firefox = {
     enable = true;
+    # package = pkgs-unstable.firefox;
   };
 
   environment.systemPackages = (with pkgs; [
@@ -138,7 +139,7 @@
     # libsForQt5.kdenlive # flatpak
     # obs-studio
 
-    distrobox # does not work well in NixOS
+    # distrobox # does not work well in NixOS
 
     wireshark
   ]) ++ (with pkgs-unstable; [
