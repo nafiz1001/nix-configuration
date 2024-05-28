@@ -123,6 +123,8 @@
     gnumake
 
     appimage-run
+
+    sshfs
   ];
 
   # home.file.".steam/steam/steam_dev.cfg".text = lib.mkIf osConfig.programs.steam.enable
