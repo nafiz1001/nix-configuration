@@ -25,6 +25,9 @@ in {
     device = "/dev/nvme0n1p1";
     fsType = "vfat";
   };
+  boot.loader.efi = {
+    efiSysMountPoint = "/boot";
+  };
 
   fileSystems."/" = {
     device = "/dev/nvme0n1p2";

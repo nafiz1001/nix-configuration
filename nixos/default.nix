@@ -44,7 +44,6 @@
 
   boot.loader.efi = {
     canTouchEfiVariables = true;
-    efiSysMountPoint = "/boot";
   };
   boot.loader.systemd-boot.enable = true;
 
@@ -127,6 +126,7 @@
 
     # discord # flatpak
     slack
+    zoom
     thunderbird
 
     # dropbox # I use syncthing
@@ -145,7 +145,7 @@
   ]) ++ (with pkgs-unstable; [
     # zoom-us # broken
     obs-studio
-    racket
+    # racket
   ]);
 
   environment.sessionVariables = rec {
