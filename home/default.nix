@@ -38,7 +38,7 @@
   programs.zsh = {
     enable = lib.mkDefault false;
     syntaxHighlighting.enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     initExtra = lib.strings.concatStringsSep "\n" [
       ''bindkey "^R" history-incremental-pattern-search-backward''
       "bindkey -v"

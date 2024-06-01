@@ -27,13 +27,13 @@ in
       gnome-text-editor
       gnome-tour
       snapshot # webcam
+      gedit # text editor
     ]) ++ (with pkgs.gnome; [
       # baobab # disk usage analyzer
       cheese # webcam tool
       epiphany # web browser
       evince # document viewer
       geary # email reader
-      gedit # text editor
       gnome-calendar
       # gnome-characters
       gnome-contacts
