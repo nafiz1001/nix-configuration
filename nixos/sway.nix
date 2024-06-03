@@ -17,6 +17,9 @@ in
       enable = true;
       extraPackages = with pkgs; [ swaylock swayidle foot dmenu wmenu ];
     };
+    xdg.portal.wlr.enable = true;
+
+    programs.waybar.enable = true;
 
     # https://nixos.wiki/wiki/Sway#Brightness_and_volume
     programs.light.enable = true;
@@ -38,6 +41,8 @@ in
       obs-studio-plugins.wlrobs
 
       mako # notification system developed by swaywm maintainer
+
+      fuzzel
     ];
   };
 }

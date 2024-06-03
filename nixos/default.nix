@@ -105,14 +105,9 @@
   };
 
   programs.dconf.enable = true;
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
   services.gnome.gnome-keyring.enable = true;
   services.dbus.enable = true;
-  xdg.portal = {
-    enable = true;
-    # gtk portal needed to make gtk apps happy
-    # extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
+  xdg.portal.enable = true;
   # services.geoclue2 = {
   #   enable = true;
   # };
@@ -127,8 +122,6 @@
   };
 
   environment.systemPackages = (with pkgs; [
-    # most gui apps should come from flathub
-
     # okular
     libreoffice-fresh
 

@@ -11,8 +11,6 @@ in
     nixpkgs.overlays =
       [ (self: super: { eww = super.eww.override { withWayland = true; }; }) ];
 
-    security.pam.services.swaylock = {};
-
     environment.systemPackages = with pkgs; [
       wl-clipboard
       xwaylandvideobridge # screensharing
