@@ -2,9 +2,9 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./gnome.nix
-    ./hyprland.nix
     ./plasma.nix
     ./openbox.nix
+    ./sway.nix
     ./qemu.nix
   ];
 
@@ -70,6 +70,14 @@
       # Required for containers under podman-compose to be able to talk to each other.
       defaultNetwork.settings.dns_enabled = true;
     };
+  };
+
+  services.libinput = {
+    enable = true;
+    # disabling mouse acceleration
+    mouse = { accelProfile = "flat"; };
+    # disabling touchpad acceleration
+    touchpad = { accelProfile = "flat"; };
   };
 
   # Enable CUPS to print documents.
@@ -142,10 +150,10 @@
     # distrobox # does not work well in NixOS
 
     wireshark
+
+    obs-studio
   ]) ++ (with pkgs-unstable; [
     # zoom-us # broken
-    obs-studio
-    # racket
   ]);
 
   environment.sessionVariables = rec {
@@ -154,10 +162,10 @@
     ];
   };
 
-  nafiz1001.gnome.enable = true;
-  nafiz1001.hyprland.enable = false;
+  nafiz1001.gnome.enable = false;
   nafiz1001.openbox.enable = false;
   nafiz1001.plasma.enable = false;
+  nafiz1001.sway.enable = true;
 
   nafiz1001.qemu.enable = true;
 

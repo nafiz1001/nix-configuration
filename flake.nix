@@ -9,12 +9,6 @@
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-contrib = {
-      url = "github:hyprwm/contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 

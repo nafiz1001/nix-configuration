@@ -18,7 +18,7 @@ in nixpkgs.lib.nixosSystem {
   inherit system;
   specialArgs = {
     inputs = {
-      inherit (inputs) nixpkgs hyprland hyprland-contrib;
+      inherit (inputs) nixpkgs;
     };
     inherit pkgs-unstable;
     inherit username homeDirectory;

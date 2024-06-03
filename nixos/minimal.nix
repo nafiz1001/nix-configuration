@@ -18,6 +18,8 @@ in
       xfce.thunar
 
       polkit-kde-agent
+
+      gammastep
     ];
   };
 }
