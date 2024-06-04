@@ -14,7 +14,6 @@
 
   outputs = inputs:
     {
-      homeConfigurations.wsl = (import ./wsl.nix) inputs;
       nixosConfigurations.thinkbook = (import ./thinkbook.nix) inputs;
     };
 }

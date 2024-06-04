@@ -1,10 +1,6 @@
 { config, lib, pkgs, modulesPath, username, homeDirectory, pkgs-unstable, ... }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./gnome.nix
-    ./plasma.nix
-    ./openbox.nix
-    ./sway.nix
     ./qemu.nix
   ];
 
@@ -28,17 +24,17 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
-      22000 # NOTE: home-manager's syncthing does not set firewall
+      22000 # syncthing
     ];
     allowedTCPPortRanges = [
-      # { from = 1714; to = 1764; } # kdeconnect (NOTE: already done)
+      { from = 1714; to = 1764; } # kdeconnect
     ];
     allowedUDPPorts = [
-      22000 # NOTE: home-manager's syncthing does not set firewall
-      21027 # NOTE: home-manager's syncthing does not set firewall
+      22000 # syncthing
+      21027 # syncthing
     ];
     allowedUDPPortRanges = [
-      # { from = 1714; to = 1764; } # kdeconnect (NOTE: already done)
+      { from = 1714; to = 1764; } # kdeconnect
     ];
   };
 
@@ -98,28 +94,21 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "video" ]; # Enable ‘sudo’ for the user.
     name = username;
     home = homeDirectory;
     shell = pkgs.bash;
   };
 
   programs.dconf.enable = true;
-  services.gnome.gnome-keyring.enable = true;
   services.dbus.enable = true;
-  xdg.portal.enable = true;
-  # services.geoclue2 = {
-  #   enable = true;
-  # };
   security.polkit.enable = true;
 
   services.flatpak.enable = true;
+  xdg.portal.enable = true;
 
-  programs.kdeconnect.enable = true;
-  programs.firefox = {
-    enable = true;
-    # package = pkgs-unstable.firefox;
-  };
+  services.gnome.gnome-keyring.enable = true;
+  programs.seahorse.enable = true;
 
   environment.systemPackages = (with pkgs; [
     # okular
@@ -155,10 +144,14 @@
     ];
   };
 
-  nafiz1001.gnome.enable = false;
-  nafiz1001.openbox.enable = false;
-  nafiz1001.plasma.enable = false;
-  nafiz1001.sway.enable = true;
+  # https://nixos.wiki/wiki/Sway#Brightness_and_volume
+  programs.light.enable = true;
+
+  nixpkgs.overlays =
+    [ (self: super: { eww = super.eww.override { withWayland = true; }; }) ];
+
+  # https://github.com/nix-community/home-manager/blob/master/modules/misc/xdg-portal.nix#L26C9-L27C1
+  environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
 
   nafiz1001.qemu.enable = true;
 
