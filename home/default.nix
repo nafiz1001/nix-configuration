@@ -20,8 +20,6 @@
 
   programs.ssh = {
     enable = true;
-    controlMaster = "auto";
-    controlPersist = "10m";
     includes = ["myconfig"];
     # https://github.com/nix-community/home-manager/issues/4134
     extraConfig = ''
@@ -51,14 +49,10 @@
       lib.strings.concatStringsSep "\n" [ "fish_vi_key_bindings" ];
   };
 
-  targets.genericLinux.enable = pkgs.stdenv.isLinux;
+  targets.genericLinux.enable = true;
 
   nafiz1001.neovim.enable = true;
-  nafiz1001.emacs.enable = pkgs.stdenv.isLinux;
-  programs.vscode = {
-    enable = pkgs.stdenv.isLinux;
-    package = pkgs-unstable.vscode;
-  };
+  nafiz1001.emacs.enable = true;
 
   programs.git = {
     enable = true;
@@ -75,9 +69,12 @@
   # home.sessionVariables = { FZF_DEFAULT_COMMAND = "rg --files --hidden"; };
 
   # generates user-dirs.dirs
-  xdg.userDirs.enable = pkgs.stdenv.isLinux;
+  xdg.userDirs.enable = true;
 
-  services.syncthing = { enable = pkgs.stdenv.isLinux; };
+  services.syncthing = {
+    enable = true;
+    tray = true;
+  };
 
   programs.tmux = {
     enable = true;
@@ -92,6 +89,22 @@
 
   # crashes my computer
   programs.nix-index.enable = false;
+
+  programs.vscode = {
+    enable = true;
+    # package = pkgs-unstable.vscode;
+  };
+
+  services.kdeconnect = {
+    enable = true;
+    indicator = true;
+  };
+
+  programs.firefox = {
+    enable = true;
+  };
+
+  xdg.portal.enable = true;
 
   home.packages = with pkgs; [
     nixd
