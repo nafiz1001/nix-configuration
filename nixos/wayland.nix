@@ -11,6 +11,8 @@ in
     nixpkgs.overlays =
       [ (self: super: { eww = super.eww.override { withWayland = true; }; }) ];
 
+    services.displayManager.sddm.wayland.enable  = true;
+
     environment.systemPackages = with pkgs; [
       wl-clipboard
       xwaylandvideobridge # screensharing

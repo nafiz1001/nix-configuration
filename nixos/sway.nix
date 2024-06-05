@@ -15,9 +15,14 @@ in
 
     programs.sway = {
       enable = true;
-      extraPackages = with pkgs; [ swaylock swayidle foot dmenu wmenu ];
     };
-    xdg.portal.wlr.enable = true;
+    xdg.portal = {
+      wlr.enable = true;
+      # config.common = {
+      #   "org.freedesktop.impl.portal.Screenshot" = "wlr";
+      #   "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+      # };
+    };
 
     programs.waybar.enable = true;
 

@@ -8,6 +8,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    xdg.portal = {
+      # extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      # config.common.default = "gtk";
+    };
+
+    services.displayManager.sddm.enable = true;
+    
     environment.systemPackages = with pkgs; [
       pavucontrol
       pamixer
