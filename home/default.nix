@@ -20,9 +20,6 @@
 
   programs.ssh = {
     enable = true;
-    controlMaster = "auto";
-    controlPersist = "10m";
-    includes = ["myconfig"];
     # https://github.com/nix-community/home-manager/issues/4134
     extraConfig = ''
     IdentitiesOnly yes

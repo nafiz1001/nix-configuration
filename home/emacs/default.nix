@@ -1,7 +1,7 @@
 { config, pkgs, lib, osConfig, ... }:
 let
   cfg = config.nafiz1001.emacs;
-  package = pkgs.emacs29;
+  package = pkgs.emacs29-pgtk;
   extraPackages = epkgs: [
     epkgs.treesit-grammars.with-all-grammars
   ];
