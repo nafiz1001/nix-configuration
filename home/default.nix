@@ -1,9 +1,5 @@
-{ config, pkgs, pkgs-unstable, lib, osConfig, ... }:
-{
-  imports = [
-    ./neovim
-    ./emacs
-  ];
+{ config, pkgs, pkgs-unstable, lib, osConfig, ... }: {
+  imports = [ ./neovim ./emacs ];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -21,8 +17,9 @@
   programs.ssh = {
     enable = true;
     # https://github.com/nix-community/home-manager/issues/4134
+    includes = [ "myconfig" ];
     extraConfig = ''
-    IdentitiesOnly yes
+      IdentitiesOnly yes
     '';
   };
   services.ssh-agent.enable = true;

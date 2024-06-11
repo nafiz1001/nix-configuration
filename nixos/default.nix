@@ -1,4 +1,5 @@
-{ config, lib, pkgs, modulesPath, username, homeDirectory, pkgs-unstable, ... }: {
+{ config, lib, pkgs, modulesPath, username, homeDirectory, pkgs-unstable, ...
+}: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./gnome.nix
@@ -42,9 +43,7 @@
     ];
   };
 
-  boot.loader.efi = {
-    canTouchEfiVariables = true;
-  };
+  boot.loader.efi = { canTouchEfiVariables = true; };
   boot.loader.systemd-boot.enable = true;
 
   networking.networkmanager.enable = true;
@@ -106,6 +105,7 @@
 
   programs.dconf.enable = true;
   services.gnome.gnome-keyring.enable = true;
+  programs.seahorse.enable = true;
   services.dbus.enable = true;
   xdg.portal.enable = true;
   # services.geoclue2 = {
@@ -122,6 +122,7 @@
   };
 
   environment.systemPackages = (with pkgs; [
+    psmisc
     # okular
     libreoffice-fresh
 
@@ -145,20 +146,17 @@
     wireshark
 
     obs-studio
-  ]) ++ (with pkgs-unstable; [
-    # zoom-us # broken
-  ]);
+  ]) ++ (with pkgs-unstable;
+    [
+      # zoom-us # broken
+    ]);
 
-  environment.sessionVariables = rec {
-    PATH = [
-      "$HOME/.local/bin"
-    ];
-  };
+  environment.sessionVariables = rec { PATH = [ "$HOME/.local/bin" ]; };
 
-  nafiz1001.gnome.enable = false;
+  nafiz1001.gnome.enable = true;
   nafiz1001.openbox.enable = false;
   nafiz1001.plasma.enable = false;
-  nafiz1001.sway.enable = true;
+  nafiz1001.sway.enable = false;
 
   nafiz1001.qemu.enable = true;
 
