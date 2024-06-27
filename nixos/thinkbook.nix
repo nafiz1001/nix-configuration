@@ -12,7 +12,7 @@ in {
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_8;
+  boot.kernelPackages = pkgs.linuxPackages_6_6;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   services.power-profiles-daemon.enable = false;
