@@ -7,7 +7,6 @@
     ./openbox.nix
     ./sway.nix
     ./qemu.nix
-    ./opensmalltalk-vm
   ];
 
   boot.kernel.sysctl."kernel.sysrq" = 1;
@@ -160,8 +159,6 @@
   nafiz1001.sway.enable = false;
 
   nafiz1001.qemu.enable = true;
-
-  nafiz1001.squeak-vm.enable = true;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
