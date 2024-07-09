@@ -110,6 +110,7 @@
     # bc
 
     yt-dlp
+    wget
 
     rustup
     gdb

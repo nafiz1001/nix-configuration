@@ -1,13 +1,9 @@
 { config, lib, pkgs, ... }:
-let
-  cfg = config.nafiz1001.gnome;
-in
-{
+let cfg = config.nafiz1001.gnome;
+in {
   imports = [ ./xserver.nix ./wayland.nix ];
 
-  options.nafiz1001.gnome = {
-    enable = lib.mkEnableOption "Gnome";
-  };
+  options.nafiz1001.gnome = { enable = lib.mkEnableOption "Gnome"; };
 
   config = lib.mkIf cfg.enable {
     nafiz1001.xserver.enable = true;
@@ -53,24 +49,27 @@ in
       gnomeExtensions.gsconnect
       gnomeExtensions.appindicator
 
+      gnome.gnome-chess
+      gnome.gnome-mahjongg
+      gnome.gnome-mines
+      gnome.gnome-sudoku
+
       mpv # video and (most importantly) music player
       mpvScripts.inhibit-gnome
     ];
 
-    programs.firefox.nativeMessagingHosts.packages = with pkgs; [
-      gnomeExtensions.gsconnect
-    ];
+    programs.firefox.nativeMessagingHosts.packages = with pkgs;
+      [ gnomeExtensions.gsconnect ];
 
     # nixos/modules/config/qt.nix
-    qt = {
-      enable = true;
-    };
+    qt = { enable = true; };
 
-    environment.sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (with pkgs.gst_all_1; [
-      gst-plugins-good
-      gst-plugins-bad
-      gst-plugins-ugly
-      gst-libav
-    ]);
+    environment.sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 =
+      lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (with pkgs.gst_all_1; [
+        gst-plugins-good
+        gst-plugins-bad
+        gst-plugins-ugly
+        gst-libav
+      ]);
   };
 }
