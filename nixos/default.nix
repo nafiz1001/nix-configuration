@@ -129,7 +129,7 @@
 
     # discord # flatpak
     slack
-    zoom
+    zoom-us
     thunderbird
 
     # dropbox # I use syncthing
