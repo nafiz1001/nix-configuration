@@ -49,13 +49,6 @@ in {
       gnomeExtensions.gsconnect
       gnomeExtensions.appindicator
 
-      gnome.gnome-chess
-      stockfish
-      gnome.gnome-mahjongg
-      gnome.gnome-mines
-      gnome.gnome-sudoku
-      gnome.aisleriot
-
       mpv # video and (most importantly) music player
       mpvScripts.inhibit-gnome
     ];

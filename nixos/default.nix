@@ -147,6 +147,11 @@
     wireshark
 
     obs-studio
+
+    gnome.gnome-chess
+    stockfish
+    gnome.gnome-sudoku
+    libremines
   ]) ++ (with pkgs-unstable;
     [
       # zoom-us # broken
