@@ -28,7 +28,7 @@ in {
       # baobab # disk usage analyzer
       cheese # webcam tool
       epiphany # web browser
-      evince # document viewer
+      # evince # document viewer
       geary # email reader
       gnome-calendar
       # gnome-characters

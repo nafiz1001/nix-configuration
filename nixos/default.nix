@@ -124,7 +124,7 @@
 
   environment.systemPackages = (with pkgs; [
     psmisc
-    # okular
+    okular
     libreoffice-fresh
 
     # discord # flatpak
