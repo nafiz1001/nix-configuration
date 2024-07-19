@@ -17,9 +17,7 @@ let
 in nixpkgs.lib.nixosSystem {
   inherit system;
   specialArgs = {
-    inputs = {
-      inherit (inputs) nixpkgs;
-    };
+    inputs = { inherit (inputs) nixpkgs; };
     inherit pkgs-unstable;
     inherit username homeDirectory;
   };
@@ -31,19 +29,14 @@ in nixpkgs.lib.nixosSystem {
     {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
-      home-manager.extraSpecialArgs = {
-        inherit pkgs-unstable;
-      };
+      home-manager.extraSpecialArgs = { inherit pkgs-unstable; };
     }
     home-manager.nixosModules.home-manager
 
     (mkNixosHomeModule "root" "/root")
     (mkNixosHomeModule username homeDirectory)
-  ]
-  ++ (with nixos-hardware.nixosModules; [
+  ] ++ (with nixos-hardware.nixosModules; [
     common-cpu-intel
-    common-pc
-    common-pc-ssd
     common-pc-laptop
     common-pc-laptop-ssd
   ]);

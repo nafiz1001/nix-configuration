@@ -1,6 +1,8 @@
-{ config, lib, pkgs, ... }: let
-  useDHCP = !config.networking.networkmanager.enable;
+{ config, lib, pkgs, ... }:
+let useDHCP = !config.networking.networkmanager.enable;
 in {
+  system.stateVersion = "23.11";
+
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "thunderbolt"
@@ -12,7 +14,7 @@ in {
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_6;
+  boot.kernelPackages = pkgs.linuxPackages_6_10;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   services.power-profiles-daemon.enable = false;
@@ -25,9 +27,7 @@ in {
     device = "/dev/nvme0n1p1";
     fsType = "vfat";
   };
-  boot.loader.efi = {
-    efiSysMountPoint = "/boot";
-  };
+  boot.loader.efi = { efiSysMountPoint = "/boot"; };
 
   fileSystems."/" = {
     device = "/dev/nvme0n1p2";
@@ -47,4 +47,6 @@ in {
   services.upower.enable = true;
 
   virtualisation.kvmgt.enable = true;
+
+  services.fwupd.enable = true;
 }
