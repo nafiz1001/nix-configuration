@@ -12,9 +12,9 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = inputs:
-    {
-      homeConfigurations.wsl = (import ./wsl.nix) inputs;
-      nixosConfigurations.thinkbook = (import ./thinkbook.nix) inputs;
-    };
+  outputs = inputs: {
+    homeConfigurations.wsl = (import ./wsl.nix) inputs;
+    nixosConfigurations.thinkbook = (import ./thinkbook.nix) inputs;
+    nixosConfigurations.xps = (import ./xps.nix) inputs;
+  };
 }
