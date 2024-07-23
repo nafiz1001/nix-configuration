@@ -98,7 +98,11 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      # "kvm" # not supported on 12th gen
+    ];
     name = username;
     home = homeDirectory;
     shell = pkgs.bash;
@@ -123,11 +127,11 @@
   };
 
   environment.systemPackages = (with pkgs; [
-    psmisc
+    psmisc # e.g. fuser
     okular
     libreoffice-fresh
 
-    # discord # flatpak
+    # discord # krisp missing, use flatpak
     slack
     zoom-us
     thunderbird
@@ -138,15 +142,13 @@
     # obsidian # I use org-mode
 
     gimp
-    # audacity
-    # libsForQt5.kdenlive # flatpak
-    # obs-studio
+    audacity
+    # kdenlive # glaxnimate missing, use flatpak
+    obs-studio
 
     # distrobox # does not work well in NixOS
 
     wireshark
-
-    obs-studio
 
     gnome.gnome-chess
     stockfish

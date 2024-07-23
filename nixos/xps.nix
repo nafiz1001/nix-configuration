@@ -29,7 +29,7 @@ in {
 
   services.upower.enable = true;
 
-  virtualisation.kvmgt.enable = true;
+  virtualisation.kvmgt.enable = false; # not supported on 13th gen
 
   services.fwupd.enable = true;
 }

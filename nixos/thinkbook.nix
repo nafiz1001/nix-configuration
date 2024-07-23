@@ -46,7 +46,7 @@ in {
 
   services.upower.enable = true;
 
-  virtualisation.kvmgt.enable = true;
+  virtualisation.kvmgt.enable = false; # not supported on 12th gen
 
   services.fwupd.enable = true;
 }
