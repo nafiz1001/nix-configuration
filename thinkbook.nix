@@ -25,6 +25,7 @@ in nixpkgs.lib.nixosSystem {
     ./common.nix
     ./nixos
     ./nixos/thinkbook.nix
+    ./nixos/gaming.nix
 
     {
       home-manager.useGlobalPkgs = true;

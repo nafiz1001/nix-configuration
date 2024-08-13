@@ -167,5 +167,5 @@
   nafiz1001.sway.enable = false;
 
   nafiz1001.qemu.enable = true;
-  nafiz1001.squeak-vm.enable = true;
+  nafiz1001.squeak-vm.enable = false;
 }
