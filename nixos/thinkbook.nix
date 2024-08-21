@@ -47,6 +47,9 @@ in {
   services.upower.enable = true;
 
   virtualisation.kvmgt.enable = false; # not supported on 12th gen
+  virtualisation.vmware.host.enable = false; # compilation error
+  virtualisation.virtualbox.host.enable = false; # run-time error
+  users.extraGroups.vboxusers.members = [ "nafiz" ];
 
   services.fwupd.enable = true;
 }

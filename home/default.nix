@@ -93,6 +93,7 @@
     # socat
     pandoc
     tree
+    pv
 
     zip
     unzip
