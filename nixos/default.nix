@@ -81,7 +81,7 @@
   };
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = false;
 
   # Enable sound.
   security.rtkit.enable = true;
@@ -134,10 +134,10 @@
     # discord # krisp missing, use flatpak
     slack
     zoom-us
-    thunderbird
+    # thunderbird # imperative
 
     # dropbox # I use syncthing
-    qbittorrent
+    # qbittorrent # imperative
 
     # obsidian # I use org-mode
 
@@ -148,15 +148,16 @@
 
     # distrobox # does not work well in NixOS
 
-    wireshark
+    # wireshark # imperative
 
-    gnome.gnome-chess
-    stockfish
-    gnome.gnome-sudoku
-    libremines
+    # gnome.gnome-chess # imperative
+    # stockfish # imperative
+    # gnome.gnome-sudoku # imperative
+    # libremines # imperative
   ]) ++ (with pkgs-unstable;
     [
       # zoom-us # broken
+      android-studio # install as long as i have android
     ]);
 
   environment.sessionVariables = rec { PATH = [ "$HOME/.local/bin" ]; };
