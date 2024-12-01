@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let useDHCP = !config.networking.networkmanager.enable;
 in {
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
-  boot.kernelPackages = pkgs.linuxPackages_6_10;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 

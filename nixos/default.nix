@@ -30,17 +30,17 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
-      22000 # NOTE: home-manager's syncthing does not set firewall
+      22000 # home-manager's syncthing does not set firewall
     ];
     allowedTCPPortRanges = [
       # { from = 1714; to = 1764; } # kdeconnect (NOTE: already done)
     ];
     allowedUDPPorts = [
-      22000 # NOTE: home-manager's syncthing does not set firewall
-      21027 # NOTE: home-manager's syncthing does not set firewall
+      22000 # home-manager's syncthing does not set firewall
+      21027 # home-manager's syncthing does not set firewall
     ];
     allowedUDPPortRanges = [
-      # { from = 1714; to = 1764; } # kdeconnect (NOTE: already done)
+      # { from = 1714; to = 1764; } # kdeconnect (already done)
     ];
   };
 
@@ -128,16 +128,17 @@
 
   environment.systemPackages = (with pkgs; [
     psmisc # e.g. fuser
+
     okular
     libreoffice-fresh
 
     # discord # krisp missing, use flatpak
     slack
     zoom-us
-    # thunderbird # imperative
+    # thunderbird
 
     # dropbox # I use syncthing
-    # qbittorrent # imperative
+    # qbittorrent
 
     # obsidian # I use org-mode
 
@@ -145,19 +146,20 @@
     audacity
     # kdenlive # glaxnimate missing, use flatpak
     obs-studio
-
+    godot_4-mono
+    android-studio # install as long as i have android
+    
     # distrobox # does not work well in NixOS
 
-    # wireshark # imperative
+    # wireshark
 
-    # gnome.gnome-chess # imperative
-    # stockfish # imperative
-    # gnome.gnome-sudoku # imperative
-    # libremines # imperative
+    # gnome.gnome-chess
+    # stockfish
+    # gnome.gnome-sudoku
+    # libremines
   ]) ++ (with pkgs-unstable;
     [
-      # zoom-us # broken
-      android-studio # install as long as i have android
+      # zoom-us # gets out of date too quickly
     ]);
 
   environment.sessionVariables = rec { PATH = [ "$HOME/.local/bin" ]; };
