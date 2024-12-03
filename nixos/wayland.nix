@@ -15,7 +15,6 @@ in
 
     environment.systemPackages = with pkgs; [
       wl-clipboard
-      xwaylandvideobridge # screensharing
 
       libsForQt5.qt5.qtwayland
       qt6.qtwayland
